@@ -4,34 +4,17 @@ import { MoreVertical } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { Label } from "./ui/label";
-import { Switch } from "./ui/switch";
+import {  useLoaderData, useSearchParams } from "@remix-run/react";
 import { AddTag } from "./AddTag";
-import { useState } from "react";
 import { loader } from "~/routes/emails";
+import { MarkAsRead } from "./MarkAsRead";
 
 export function MailDisplay() {
   const { email } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher();
-  const [isRead, setIsRead] = useState(email?.read || false);
+  const [searchParams] = useSearchParams();
+  const emailIdSelected = searchParams.get("selected");
 
-  if (!email) return null;
 
-  const handleMarkAsRead =  (checked: boolean) => {
-    setIsRead(checked);
-    fetcher.submit(
-      {
-        emailId: email.id,
-        read: checked,
-        actionType: "updateReadStatus",
-      },
-      {
-        method: "put",
-        action: "/emails",
-      }
-    );
-  };
 
   return (
     <div className="flex h-full flex-col">
@@ -43,7 +26,12 @@ export function MailDisplay() {
         </Button>
       </div>
       <Separator />
-      {email ? (
+      {!email && (
+        <div className="p-8 text-center text-muted-foreground">
+          No message selected
+        </div>
+      )}
+      {email?.id === emailIdSelected && (
         <div className="flex flex-1 flex-col">
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
@@ -77,26 +65,11 @@ export function MailDisplay() {
           <div className="p-4">
             <div className="grid gap-4">
               <div className="flex items-center">
-                <Label
-                  htmlFor="mark-as-read"
-                  className="flex items-center gap-2 text-xs font-normal"
-                >
-                  <Switch
-                    checked={isRead}
-                    onCheckedChange={handleMarkAsRead}
-                    id="mark-as-read"
-                    aria-label="Mark as read"
-                  />
-                  {isRead ? "Marked as read" : "Mark as unread"}
-                </Label>
+                <MarkAsRead key={email.id} email={email} />
                 <AddTag />
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="p-8 text-center text-muted-foreground">
-          No message selected
         </div>
       )}
     </div>
