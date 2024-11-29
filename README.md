@@ -1,6 +1,9 @@
 # Welcome to Remix!
 
 - 📖 [Remix docs](https://remix.run/docs)
+  
+## Example
+<img width="1496" alt="Screenshot 2024-11-29 at 18 24 30" src="https://github.com/user-attachments/assets/65b3019a-b630-4172-b479-df4fd6879496">
 
 ## Development
 
