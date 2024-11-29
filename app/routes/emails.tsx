@@ -1,7 +1,12 @@
 import type { MetaFunction } from "@remix-run/node";
 import { CreateEmail } from "~/components/CreateEmail";
 import { Mail } from "~/components/Mail";
-import { createEmail, createTag, getEmailById, getEmails, updateEmailReadStatus } from "~/services/emailService";
+import {
+  handleCreateEmail,
+  handleCreateTag,
+  handleUpdateReadStatus,
+} from "~/services/emailActionHandlers";
+import { getEmailById, getEmails } from "~/services/emailService";
 
 export const meta: MetaFunction = () => {
   return [
@@ -30,28 +35,20 @@ export async function action({ request }: { request: Request }) {
   const searchParams = url.searchParams;
 
   const selectedEmail = searchParams.get("selected");
-
   const formData = await request.formData();
   const actionType = formData.get("actionType") as string;
 
-  if (actionType === "updateReadStatus") {
-    const emailId = formData.get("emailId") as string;
-    const read = formData.get("read") as string;
-  
-    return await updateEmailReadStatus(emailId, JSON.parse(read) );
+  switch (actionType) {
+    case "updateReadStatus":
+      return await handleUpdateReadStatus(formData);
+
+    case "createTag":
+      return await handleCreateTag(formData, selectedEmail);
+
+    case "createEmail":
+    default:
+      return await handleCreateEmail(formData);
   }
-
-  if (actionType === "createTag") {
-    const tag = formData.get("tag") as string;
-    return await createTag(tag, selectedEmail as string);
-  }
-
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const subject = formData.get("subject") as string;
-  const body = formData.get("body") as string;
-
-  return await createEmail({ name, email, subject, body });
 }
 
 export default function Index() {
