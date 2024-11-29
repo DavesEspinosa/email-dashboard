@@ -22,7 +22,7 @@ export function CreateEmail() {
       <DialogTrigger asChild>
         <Button variant="outline" className="w-12 h-12" size='icon' onClick={() => setIsDialogOpen(true)}><Plus /></Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader >
           <DialogTitle>Compose Email</DialogTitle>
           <DialogDescription>

@@ -4,7 +4,7 @@ import { MoreVertical } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import {  useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { AddTag } from "./AddTag";
 import { loader } from "~/routes/emails";
 import { MarkAsRead } from "./MarkAsRead";
@@ -13,8 +13,6 @@ export function MailDisplay() {
   const { email } = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
   const emailIdSelected = searchParams.get("selected");
-
-
 
   return (
     <div className="flex h-full flex-col">
@@ -62,6 +60,7 @@ export function MailDisplay() {
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {email.body}
           </div>
+          <Separator />
           <div className="p-4">
             <div className="grid gap-4">
               <div className="flex items-center">
@@ -70,6 +69,7 @@ export function MailDisplay() {
               </div>
             </div>
           </div>
+          <Separator />
         </div>
       )}
     </div>

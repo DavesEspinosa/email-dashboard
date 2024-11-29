@@ -20,7 +20,7 @@ export function EmailList({emails}: {emails: Email[]}) {
   };
 
   return (
-    <ScrollArea className="h-[540px] w-[450px] rounded-md border-r p-4">
+    <ScrollArea className="h-[560px] w-[450px] rounded-md border-r p-4">
       <div className="flex flex-col gap-2 p-4 pt-0">
         {emails.map((item) => (
           <button

@@ -31,7 +31,7 @@ export function AddTag() {
           Add tag
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent aria-describedby="add-tag" className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add Tag</DialogTitle>
         </DialogHeader>
